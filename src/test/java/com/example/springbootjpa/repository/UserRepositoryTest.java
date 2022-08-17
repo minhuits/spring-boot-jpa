@@ -181,4 +181,15 @@ class UserRepositoryTest {
 
         userRepository.findAll(example).forEach(System.out::println);
     }
+
+    @Test
+    void simpleJpaRepositoryTest() {
+        User newUser = new User("david", "david@fastcampus.com");
+
+        userRepository.save(newUser);
+        User user = userRepository.findById(1L).orElseThrow(RuntimeException::new);
+        user.setEmail("martin-updated@fastcampus.com");
+
+        userRepository.save(user);
+    }
 }
