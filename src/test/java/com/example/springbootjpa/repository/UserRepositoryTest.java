@@ -79,6 +79,7 @@ class UserRepositoryTest {
 
         userRepository.findAll().forEach(System.out::println);
     }
+
     @Test
     void saveAndFlush() {
         userRepository.saveAndFlush(new User("new martin", "newMartin@fastcampus.com"));
@@ -92,6 +93,7 @@ class UserRepositoryTest {
 
         System.out.println(count);
     }
+
     @Test
     void existsById() {
         boolean exists = userRepository.existsById(1L);
@@ -105,6 +107,7 @@ class UserRepositoryTest {
 
         userRepository.delete(user);
     }
+
     @Test
     void deleteById() {
         userRepository.deleteById(1L);
@@ -118,6 +121,7 @@ class UserRepositoryTest {
 
         userRepository.findAll().forEach(System.out::println);
     }
+
     @Test
     void findByIdDeleteAll() {
         List<User> user = userRepository.findAllById(Lists.newArrayList(1L, 3L));
@@ -135,6 +139,7 @@ class UserRepositoryTest {
 
         userRepository.findAll().forEach(System.out::println);
     }
+
     @Test
     void deleteAllInBatch() {
         userRepository.deleteAllInBatch();
@@ -170,6 +175,7 @@ class UserRepositoryTest {
 
         userRepository.findAll(example).forEach(System.out::println);
     }
+
     @Test
     void exampleMatcher2() {
         User user = new User();
@@ -191,5 +197,26 @@ class UserRepositoryTest {
         user.setEmail("martin-updated@fastcampus.com");
 
         userRepository.save(user);
+    }
+
+    @Test
+    void QueryEmailTest() {
+        System.out.println("[QueryEmailTest] findByEmail : " + userRepository.findByEmail("martin@fastcmpus.com"));
+        System.out.println("[QueryEmailTest] getByEmail : " + userRepository.getByEmail("martin@fastcmpus.com"));
+        System.out.println("[QueryEmailTest] readByEmail : " + userRepository.readByEmail("martin@fastcmpus.com"));
+        System.out.println("[QueryEmailTest] queryByEmail : " + userRepository.queryByEmail("martin@fastcmpus.com"));
+        System.out.println("[QueryEmailTest] searchByEmail : " + userRepository.searchByEmail("martin@fastcmpus.com"));
+        System.out.println("[QueryEmailTest] streamByEmail : " + userRepository.streamByEmail("martin@fastcmpus.com"));
+        System.out.println("[QueryEmailTest] findUserByEmail : " + userRepository.findUserByEmail("martin@fastcmpus.com"));
+    }
+
+    @Test
+    void QueryNameTest() {
+        System.out.println("[QueryNameTest] findByName : " + userRepository.findByName("dennis"));
+        System.out.println("[QueryNameTest] findTop1ByName : " + userRepository.findTop1ByName("martin"));
+        System.out.println("[QueryNameTest] findFirstByName : " + userRepository.findFirstByName("martin"));
+        System.out.println("[QueryNameTest] findTop2ByName : " + userRepository.findTop2ByName("martin"));
+        System.out.println("[QueryNameTest] findFirs2ByName : " + userRepository.findFirst2ByName("martin"));
+        System.out.println("[QueryNameTest] findLast1ByName : " + userRepository.findLast1ByName("martin"));
     }
 }
