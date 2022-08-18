@@ -3,6 +3,7 @@ package com.example.springbootjpa.repository;
 import com.example.springbootjpa.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -32,4 +33,21 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findTop2ByName(String name);
 
     List<User> findLast1ByName(String name);
+
+    List<User> findByEmailAndName(String email, String name);
+
+    List<User> findByEmailOrName(String email, String name);
+
+    List<User> findByIdAfter(Long id);
+
+    List<User> findByCreatedAtAfter(LocalDateTime dateTime);
+    List<User> findByCreatedAtGreaterThan(LocalDateTime dateTime);
+
+    List<User> findByCreatedAtGreaterThanEqual(LocalDateTime dateTime);
+
+    List<User> findByCreatedAtBetween(LocalDateTime dateTime1, LocalDateTime dateTime2);
+
+    List<User> findByIdBetween(Long id1, Long id2);
+
+    List<User> findByIdGreaterThanEqualAndIdLessThanEqual(Long id1, Long id2);
 }

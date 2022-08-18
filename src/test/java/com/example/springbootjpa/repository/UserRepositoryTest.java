@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.*;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.contains;
@@ -200,23 +201,44 @@ class UserRepositoryTest {
     }
 
     @Test
-    void QueryEmailTest() {
-        System.out.println("[QueryEmailTest] findByEmail : " + userRepository.findByEmail("martin@fastcmpus.com"));
-        System.out.println("[QueryEmailTest] getByEmail : " + userRepository.getByEmail("martin@fastcmpus.com"));
-        System.out.println("[QueryEmailTest] readByEmail : " + userRepository.readByEmail("martin@fastcmpus.com"));
-        System.out.println("[QueryEmailTest] queryByEmail : " + userRepository.queryByEmail("martin@fastcmpus.com"));
-        System.out.println("[QueryEmailTest] searchByEmail : " + userRepository.searchByEmail("martin@fastcmpus.com"));
-        System.out.println("[QueryEmailTest] streamByEmail : " + userRepository.streamByEmail("martin@fastcmpus.com"));
-        System.out.println("[QueryEmailTest] findUserByEmail : " + userRepository.findUserByEmail("martin@fastcmpus.com"));
+    void QueryTest1() {
+        System.out.println("[QueryTest1] findByEmail : " + userRepository.findByEmail("martin@fastcmpus.com"));
+        System.out.println("[QueryTest1] getByEmail : " + userRepository.getByEmail("martin@fastcmpus.com"));
+        System.out.println("[QueryTest1] readByEmail : " + userRepository.readByEmail("martin@fastcmpus.com"));
+        System.out.println("[QueryTest1] queryByEmail : " + userRepository.queryByEmail("martin@fastcmpus.com"));
+        System.out.println("[QueryTest1] searchByEmail : " + userRepository.searchByEmail("martin@fastcmpus.com"));
+        System.out.println("[QueryTest1] streamByEmail : " + userRepository.streamByEmail("martin@fastcmpus.com"));
+        System.out.println("[QueryTest1] findUserByEmail : " + userRepository.findUserByEmail("martin@fastcmpus.com"));
+
+        System.out.println("[QueryTest1] findByName : " + userRepository.findByName("dennis"));
+        System.out.println("[QueryTest1] findTop1ByName : " + userRepository.findTop1ByName("martin"));
+        System.out.println("[QueryTest1] findFirstByName : " + userRepository.findFirstByName("martin"));
+        System.out.println("[QueryTest1] findTop2ByName : " + userRepository.findTop2ByName("martin"));
+        System.out.println("[QueryTest1] findFirs2ByName : " + userRepository.findFirst2ByName("martin"));
+        System.out.println("[QueryTest1] findLast1ByName : " + userRepository.findLast1ByName("martin"));
     }
 
     @Test
-    void QueryNameTest() {
-        System.out.println("[QueryNameTest] findByName : " + userRepository.findByName("dennis"));
-        System.out.println("[QueryNameTest] findTop1ByName : " + userRepository.findTop1ByName("martin"));
-        System.out.println("[QueryNameTest] findFirstByName : " + userRepository.findFirstByName("martin"));
-        System.out.println("[QueryNameTest] findTop2ByName : " + userRepository.findTop2ByName("martin"));
-        System.out.println("[QueryNameTest] findFirs2ByName : " + userRepository.findFirst2ByName("martin"));
-        System.out.println("[QueryNameTest] findLast1ByName : " + userRepository.findLast1ByName("martin"));
+    void QueryTest2() {
+        LocalDateTime nweDate = LocalDateTime.now().minusDays(1L);
+
+        System.out.println("[QueryTest2] findByEmailAndName : "
+                + userRepository.findByEmailAndName("martin@fastcmpus.com", "martin"));
+        System.out.println("[QueryTest2] findByEmailOrName : "
+                + userRepository.findByEmailOrName("martin@fastcmpus.com", "dennis"));
+
+        System.out.println("[QueryTest2] findByIdAfter : " + userRepository.findByIdAfter(4L));
+        System.out.println("[QueryTest2] findByCreatedAtAfter : "
+                + userRepository.findByCreatedAtAfter(nweDate));
+        System.out.println("[QueryTest2] findByCreatedAtGreaterThan : "
+                + userRepository.findByCreatedAtGreaterThan(nweDate));
+        System.out.println("[QueryTest2] findByCreatedAtGreaterThanEqual : "
+                + userRepository.findByCreatedAtGreaterThanEqual(nweDate));
+
+        System.out.println("[QueryTest2] findByCreatedAtBetween : "
+                + userRepository.findByCreatedAtBetween(nweDate, LocalDateTime.now().plusDays(1L)));
+        System.out.println("[QueryTest2] findByCreatedAtBetween : " + userRepository.findByIdBetween(1L, 3L));
+        System.out.println("[QueryTest2] findByIdGreaterThanEqualAndIdLessThanEqual : "
+                + userRepository.findByIdGreaterThanEqualAndIdLessThanEqual(1L, 3L));
     }
 }
