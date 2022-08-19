@@ -1,6 +1,8 @@
 package com.example.springbootjpa.repository;
 
 import com.example.springbootjpa.domain.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -78,4 +80,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findFirstByNameOrderByIdDescEmailAsc(String name);
 
     List<User> findFirstByName(String name, Sort sort);
+
+    Page<User> findByName(String name, Pageable pageable);
 }

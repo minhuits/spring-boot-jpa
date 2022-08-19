@@ -294,4 +294,22 @@ class UserRepositoryTest {
 
         return Sort.by(id, email, createdAt, updatedAt);
     }
+
+    @Test
+    void QueryPagingTest() {
+        System.out.println("[QueryPagingTest] findByNameWithPaging : "
+                + userRepository.findByName("martin", getPageable()));
+
+        System.out.println("[QueryPagingTest] findByNameWithPaging getContent(): "
+                + userRepository.findByName("martin", getPageable()).getContent());
+
+        System.out.println("[QueryPagingTest] findByNameWithPaging getTotalElements(): "
+                + userRepository.findByName("martin", getPageable()).getTotalElements());
+    }
+
+    private Pageable getPageable() {
+        Sort.Order id = Sort.Order.desc("id");
+
+        return  PageRequest.of(1 ,1, Sort.by(id));
+    }
 }
