@@ -1,6 +1,7 @@
 package com.example.springbootjpa.repository;
 
 import com.example.springbootjpa.domain.User;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
@@ -70,4 +71,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Set<User> findUserByName(String name);
 
     Set<User> findUserByNameEquals(String name);
+
+    List<User> findTopByNameOrderByIdDesc(String name);
+    List<User> findTopByNameOrderByIdDescEmailAsc(String name);
+
+    List<User> findFirstByNameOrderByIdDescEmailAsc(String name);
+
+    List<User> findFirstByName(String name, Sort sort);
 }

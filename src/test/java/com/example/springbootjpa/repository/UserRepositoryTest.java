@@ -258,4 +258,40 @@ class UserRepositoryTest {
         System.out.println("[QueryTest3] findUserByName : " + userRepository.findUserByName("martin"));
         System.out.println("[QueryTest3] findUserByNameEquals : " + userRepository.findUserByNameEquals("martin"));
      }
+
+    @Test
+    void QueryTest4() {
+        System.out.println("[QueryTest4] findTop1ByName : " + userRepository.findTop1ByName("martin"));
+        System.out.println("[QueryTest4] findLast1ByName : " + userRepository.findLast1ByName("martin"));
+
+        System.out.println("[QueryTest4] findTopByNameOrderByIdDesc : "
+                + userRepository.findTopByNameOrderByIdDesc("martin"));
+        System.out.println("[QueryTest4] findTopByNameOrderByIdDescEmailAsc : "
+                + userRepository.findTopByNameOrderByIdDescEmailAsc("martin"));
+
+        System.out.println("[QueryTest4] findFirstByNameOrderByIdDescEmailAsc : "
+                + userRepository.findFirstByNameOrderByIdDescEmailAsc("martin"));
+        System.out.println("[QueryTest4] findFirstByNameWithSortParams1 : "
+                + userRepository.findFirstByName("martin", Sort.by(Sort.Order.desc("id"))));
+        System.out.println("[QueryTest4] findFirstByNameWithSortParams2 : "
+                + userRepository.findFirstByName("martin", getSort2()));
+        System.out.println("[QueryTest4] findFirstByNameWithSortParams3 : "
+                + userRepository.findFirstByName("martin", getSort3()));
+    }
+
+    private Sort getSort2() {
+        Sort.Order id = Sort.Order.desc("id");
+        Sort.Order email = Sort.Order.asc("email");
+
+        return Sort.by(id, email);
+    }
+
+    private Sort getSort3() {
+        Sort.Order id = Sort.Order.desc("id");
+        Sort.Order email = Sort.Order.asc("email");
+        Sort.Order createdAt = Sort.Order.by("createdAt");
+        Sort.Order updatedAt = Sort.Order.asc("updatedAt");
+
+        return Sort.by(id, email, createdAt, updatedAt);
+    }
 }
