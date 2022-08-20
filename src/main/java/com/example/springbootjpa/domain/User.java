@@ -23,9 +23,17 @@ public class User {
     @NonNull
     private String email;
 
+    @Enumerated(value = EnumType.STRING)
+    private Gender gender;
+
+    @Column(updatable = false)
     private LocalDateTime createdAt;
 
+//    @Column(insertable = false)
     private LocalDateTime updatedAt;
+
+    @Transient
+    private String testData;
 
 //    @OneToMany(fetch = FetchType.EAGER)
 //    private List<Address> addresses;

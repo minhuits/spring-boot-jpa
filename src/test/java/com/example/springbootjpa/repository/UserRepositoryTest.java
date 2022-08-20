@@ -1,5 +1,6 @@
 package com.example.springbootjpa.repository;
 
+import com.example.springbootjpa.domain.Gender;
 import com.example.springbootjpa.domain.User;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
@@ -257,7 +258,7 @@ class UserRepositoryTest {
         System.out.println("[QueryTest3] findUserByNameIs : " + userRepository.findUserByNameIs("martin"));
         System.out.println("[QueryTest3] findUserByName : " + userRepository.findUserByName("martin"));
         System.out.println("[QueryTest3] findUserByNameEquals : " + userRepository.findUserByNameEquals("martin"));
-     }
+    }
 
     @Test
     void QueryTest4() {
@@ -310,6 +311,29 @@ class UserRepositoryTest {
     private Pageable getPageable() {
         Sort.Order id = Sort.Order.desc("id");
 
-        return  PageRequest.of(1 ,1, Sort.by(id));
+        return PageRequest.of(1, 1, Sort.by(id));
+    }
+
+    @Test
+    void entityInsertAndUpdateTest() {
+        User user1 = new User();
+        user1.setName("martin");
+        user1.setEmail("martin2@fastcmpus.com");
+        userRepository.save(user1);
+
+        User user2 = userRepository.findById(1L).orElseThrow(RuntimeException::new);
+        user2.setName("martin222");
+        userRepository.save(user2);
+    }
+
+    @Test
+    void entityEnumTest() {
+        User user = userRepository.findById(1L).orElseThrow(RuntimeException::new);
+        user.setGender(Gender.MALE);
+
+        userRepository.save(user);
+        userRepository.findAll().forEach(System.out::println);
+
+        System.out.println(userRepository.findRowRecord().get("gender"));
     }
 }
