@@ -336,4 +336,39 @@ class UserRepositoryTest {
 
         System.out.println(userRepository.findRowRecord().get("gender"));
     }
+
+    @Test
+    void listener1Test() {
+        User user = new User();
+        user.setEmail("martin2@fastcampis.com");
+        user.setName("martin");
+        userRepository.save(user);
+
+        User user1 = userRepository.findById(1L).orElseThrow(RuntimeException::new);
+        user1.setName("marrrrtion");
+        userRepository.save(user1);
+
+        userRepository.deleteById(4L);
+    }
+
+    @Test
+    void prePersistTest() {
+        User user = new User();
+        user.setEmail("martin2@fastcampis.com");
+        user.setName("martin");
+        userRepository.save(user);
+
+        System.out.println(userRepository.findByEmail("martin2@fastcampis.com"));
+    }
+
+    @Test
+    void preUpdateTest() {
+        User user = userRepository.findById(1L).orElseThrow(RuntimeException::new);
+        System.out.println("as-is : " + user);
+
+        user.setName("martin22");
+        userRepository.save(user);
+
+        System.out.println("to-Be : " + userRepository.findAll().get(0));
+    }
 }

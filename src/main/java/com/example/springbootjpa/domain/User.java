@@ -10,9 +10,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Table(
+        name = "users",
+        indexes = {@Index(columnList = "name")},
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})}
+)
 @Entity
-@Table(name = "users", indexes = {@Index(columnList = "name")}, uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
-public class User {
+@EntityListeners(value = MyEntityListener.class)
+public class User implements Auditable{
     @Id
     @GeneratedValue
     private Long id;
@@ -29,13 +34,31 @@ public class User {
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
-//    @Column(insertable = false)
     private LocalDateTime updatedAt;
 
-    @Transient
-    private String testData;
-
-//    @OneToMany(fetch = FetchType.EAGER)
-//    private List<Address> addresses;
+//    @PostPersist
+//    public void postPersist() {
+//        System.out.println(">>> PostPersist");
+//    }
+//
+//    @PostUpdate
+//    public void postUpdate() {
+//        System.out.println(">>> PostUpdate");
+//    }
+//
+//    @PreRemove
+//    public void preRemove() {
+//        System.out.println(">>> PreRemove");
+//    }
+//
+//    @PostRemove
+//    public void postRemove() {
+//        System.out.println(">>> PostRemove");
+//    }
+//
+//    @PostLoad
+//    public void postLoad() {
+//        System.out.println(">>> PostLoad");
+//    }
 
 }
