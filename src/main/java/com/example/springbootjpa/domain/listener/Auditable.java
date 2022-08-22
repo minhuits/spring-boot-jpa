@@ -1,4 +1,4 @@
-package com.example.springbootjpa.domain;
+package com.example.springbootjpa.domain.listener;
 
 import java.time.LocalDateTime;
 

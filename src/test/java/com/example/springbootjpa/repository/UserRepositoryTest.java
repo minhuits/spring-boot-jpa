@@ -20,6 +20,9 @@ class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserHistoryRepository userHistoryRepository;
+
     @Test
     void findAll() {
         List<User> users = userRepository.findAll();
@@ -370,5 +373,18 @@ class UserRepositoryTest {
         userRepository.save(user);
 
         System.out.println("to-Be : " + userRepository.findAll().get(0));
+    }
+
+    @Test
+    void userHistoryTest() {
+        User user = new User();
+        user.setName("홍길동");
+        user.setEmail("test1@naver.com");
+        userRepository.save(user);
+
+        user.setName("길동아");
+        userRepository.save(user);
+
+        userHistoryRepository.findAll().forEach(System.out::println);
     }
 }

@@ -1,23 +1,24 @@
 package com.example.springbootjpa.domain;
 
+import com.example.springbootjpa.domain.listener.Auditable;
+import com.example.springbootjpa.domain.listener.UserEntityListener;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
-@Data
-@RequiredArgsConstructor
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@RequiredArgsConstructor
+@Data
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 @Builder
-@Table(
-        name = "users",
-        indexes = {@Index(columnList = "name")},
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})}
-)
+@Table(name = "users", indexes = {@Index(columnList = "name")}, uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
 @Entity
-@EntityListeners(value = MyEntityListener.class)
-public class User implements Auditable{
+@EntityListeners(value = UserEntityListener.class)
+//@EntityListeners(value = {AuditingEntityListener.class, UserEntityListener.class})
+//@EntityListeners(value = {MyEntityListener.class, UserEntityListener.class})
+public class User extends BaseEntity implements Auditable {
     @Id
     @GeneratedValue
     private Long id;
@@ -31,34 +32,10 @@ public class User implements Auditable{
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
 
-    @Column(updatable = false)
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
-
-//    @PostPersist
-//    public void postPersist() {
-//        System.out.println(">>> PostPersist");
-//    }
+//    @Column(updatable = false)
+//    @CreatedDate
+//    private LocalDateTime createdAt;
 //
-//    @PostUpdate
-//    public void postUpdate() {
-//        System.out.println(">>> PostUpdate");
-//    }
-//
-//    @PreRemove
-//    public void preRemove() {
-//        System.out.println(">>> PreRemove");
-//    }
-//
-//    @PostRemove
-//    public void postRemove() {
-//        System.out.println(">>> PostRemove");
-//    }
-//
-//    @PostLoad
-//    public void postLoad() {
-//        System.out.println(">>> PostLoad");
-//    }
-
+//    @LastModifiedDate
+//    private LocalDateTime updatedAt;
 }
