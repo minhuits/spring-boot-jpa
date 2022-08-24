@@ -5,13 +5,13 @@ import com.example.springbootjpa.domain.UserHistory;
 import com.example.springbootjpa.repository.UserHistoryRepository;
 import com.example.springbootjpa.support.BeanUtils;
 
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
+import javax.persistence.PostPersist;
+import javax.persistence.PostUpdate;
 
 public class UserEntityListener {
 
-    @PrePersist
-    @PreUpdate
+    @PostPersist
+    @PostUpdate
     public void prePersistAndPreUpdate(Object object) {
         User user = (User) object;
         UserHistoryRepository userHistoryRepository = BeanUtils.getBean(UserHistoryRepository.class);

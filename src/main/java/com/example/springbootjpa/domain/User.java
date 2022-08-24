@@ -4,6 +4,7 @@ import com.example.springbootjpa.domain.listener.UserEntityListener;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Builder
-@Table(name = "users", indexes = {@Index(columnList = "name")}, uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
+@Table(name = "users")
 @Entity
 @EntityListeners(value = UserEntityListener.class)
 public class User extends BaseEntity {
@@ -28,4 +29,8 @@ public class User extends BaseEntity {
 
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "userId", insertable = false, updatable = false)
+    private List<UserHistory> userHistories;
 }
