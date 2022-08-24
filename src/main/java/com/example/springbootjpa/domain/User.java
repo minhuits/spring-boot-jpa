@@ -17,7 +17,7 @@ import javax.persistence.*;
 @EntityListeners(value = UserEntityListener.class)
 public class User extends BaseEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NonNull
