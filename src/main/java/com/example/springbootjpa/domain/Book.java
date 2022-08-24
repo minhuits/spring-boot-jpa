@@ -1,6 +1,5 @@
 package com.example.springbootjpa.domain;
 
-import com.example.springbootjpa.domain.listener.Auditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -15,19 +14,16 @@ import javax.persistence.Id;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-//@EntityListeners(value = MyEntityListener.class)
-public class Book extends BaseEntity implements Auditable {
+public class Book extends BaseEntity {
     @Id
     @GeneratedValue
     private Long id;
 
+    private Long authorId;
+
+    private Long publisherId;
+
     private String name;
 
-    private String author;
-
-//    @CreatedDate
-//    private LocalDateTime createdAt;
-//
-//    @LastModifiedDate
-//    private LocalDateTime updatedAt;
+    private String category;
 }

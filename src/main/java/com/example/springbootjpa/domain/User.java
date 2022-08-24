@@ -1,6 +1,5 @@
 package com.example.springbootjpa.domain;
 
-import com.example.springbootjpa.domain.listener.Auditable;
 import com.example.springbootjpa.domain.listener.UserEntityListener;
 import lombok.*;
 
@@ -16,9 +15,7 @@ import javax.persistence.*;
 @Table(name = "users", indexes = {@Index(columnList = "name")}, uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
 @Entity
 @EntityListeners(value = UserEntityListener.class)
-//@EntityListeners(value = {AuditingEntityListener.class, UserEntityListener.class})
-//@EntityListeners(value = {MyEntityListener.class, UserEntityListener.class})
-public class User extends BaseEntity implements Auditable {
+public class User extends BaseEntity {
     @Id
     @GeneratedValue
     private Long id;
@@ -31,11 +28,4 @@ public class User extends BaseEntity implements Auditable {
 
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
-
-//    @Column(updatable = false)
-//    @CreatedDate
-//    private LocalDateTime createdAt;
-//
-//    @LastModifiedDate
-//    private LocalDateTime updatedAt;
 }

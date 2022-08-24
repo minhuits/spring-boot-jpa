@@ -1,5 +1,6 @@
 package com.example.springbootjpa.domain;
 
+import com.example.springbootjpa.domain.listener.Auditable;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -18,7 +19,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @MappedSuperclass
 @EntityListeners(value = AuditingEntityListener.class)
-public class BaseEntity {
+public class BaseEntity implements Auditable {
 
     @CreatedDate
     private LocalDateTime createdAt;
