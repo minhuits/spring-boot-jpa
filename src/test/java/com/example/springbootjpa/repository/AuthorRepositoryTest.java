@@ -2,6 +2,7 @@ package com.example.springbootjpa.repository;
 
 import com.example.springbootjpa.domain.Author;
 import com.example.springbootjpa.domain.Book;
+import com.example.springbootjpa.domain.BookAndAuthor;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ class AuthorRepositoryTest {
     @Autowired
     private BookRepository bookRepository;
 
+    @Autowired
+    private BookAndAuthorRepository bookAndAuthorRepository;
+
     @Test
     @Transactional
     void manyToManyTest() {
@@ -30,13 +34,23 @@ class AuthorRepositoryTest {
         Author author1 = getAuthor("martin");
         Author author2 = getAuthor("steve");
 
-        book1.addAuthor(author1);
-        book2.addAuthor(author2);
-        book3.addAuthor(author1, author2);
-        book4.addAuthor(author1, author2);
+        BookAndAuthor bookAndAuthor1 = getBookAndAuthor(book1, author1);
+        BookAndAuthor bookAndAuthor2 = getBookAndAuthor(book2, author2);
 
-        author1.addBook(book1, book3, book4);
-        author2.addBook(book2, book3, book4);
+        BookAndAuthor bookAndAuthor3 = getBookAndAuthor(book3, author1);
+        BookAndAuthor bookAndAuthor4 = getBookAndAuthor(book3, author2);
+
+        BookAndAuthor bookAndAuthor5 = getBookAndAuthor(book4, author1);
+        BookAndAuthor bookAndAuthor6 = getBookAndAuthor(book4, author2);
+
+        book1.addBookAndAuthors(bookAndAuthor1);
+        book2.addBookAndAuthors(bookAndAuthor2);
+
+        book3.addBookAndAuthors(bookAndAuthor3, bookAndAuthor4);
+        book4.addBookAndAuthors(bookAndAuthor5, bookAndAuthor6);
+
+        author1.addBookAndAuthors(bookAndAuthor1, bookAndAuthor3, bookAndAuthor5);
+        author2.addBookAndAuthors(bookAndAuthor2, bookAndAuthor4, bookAndAuthor6);
 
         List<Book> books = Lists.newArrayList(book1, book2, book3, book4);
         List<Author> authors = Lists.newArrayList(author1, author2);
@@ -44,8 +58,12 @@ class AuthorRepositoryTest {
         bookRepository.saveAll(books);
         authorRepository.saveAll(authors);
 
-        System.out.println("Authors through book : " + bookRepository.findAll().get(2).getAuthors());
-        System.out.println("Authors through author : " + authorRepository.findAll().get(0).getBooks());
+        bookRepository.findAll().get(2)
+                .getBookAndAuthors()
+                .forEach(o->System.out.println(o.getAuthor()));
+        authorRepository.findAll().get(0)
+                .getBookAndAuthors()
+                .forEach(o->System.out.println(o.getBook()));
     }
 
     private Book getBook(String name) {
@@ -60,5 +78,13 @@ class AuthorRepositoryTest {
         author.setName(name);
 
         return authorRepository.save(author);
+    }
+
+    private BookAndAuthor getBookAndAuthor(Book book, Author author) {
+        BookAndAuthor bookAndAuthor = new BookAndAuthor();
+        bookAndAuthor.setBook(book);
+        bookAndAuthor.setAuthor(author);
+
+        return bookAndAuthorRepository.save(bookAndAuthor);
     }
 }
