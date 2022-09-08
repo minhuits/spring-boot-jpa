@@ -9,6 +9,18 @@ spring:
     properties:
       hibernate:
         format_sql: true
+    generate-ddl: false
+    hibernate:
+      ddl-auto: 'create-drop'
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/book_manager
+    username: root
+    password: 1234
+
+  sql:
+    init:
+      mode: ALWAYS
 
 server:
   port: 8070

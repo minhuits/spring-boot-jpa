@@ -7,8 +7,7 @@ import com.example.springbootjpa.domain.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 class BookRepositoryTest {
@@ -44,8 +43,6 @@ class BookRepositoryTest {
 
         User user = userRepository.findByEmail("dennis@fastcmpus.com");
         System.out.println("Review : " + user.getReviews());
-        System.out.println("Book : " + user.getReviews().get(0).getBook());
-        System.out.println("Publisher : " + user.getReviews().get(0).getBook().getPublisher());
     }
 
     private void getBookAndReview() {

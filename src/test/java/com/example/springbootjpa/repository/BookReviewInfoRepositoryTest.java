@@ -19,7 +19,6 @@ class BookReviewInfoRepositoryTest {
         Book book = new Book();
         book.setName("JPA 패키지");
         book.setAuthorId(1L);
-//        book.setPublisherId(1L);
 
         return bookRepository.save(book);
     }
@@ -38,7 +37,7 @@ class BookReviewInfoRepositoryTest {
     @Test
     void crudTest() {
         BookReviewInfo bookReviewInfo = new BookReviewInfo();
-//        bookReviewInfo.setBookId(1L);
+        bookReviewInfo.setBook(getBook());
         bookReviewInfo.setAverageReviewScore(4.5f);
         bookReviewInfo.setReviewCount(2);
 
