@@ -1,5 +1,6 @@
 package com.example.springbootjpa.service;
 
+import com.example.springbootjpa.domain.Book;
 import com.example.springbootjpa.repository.AuthorRepository;
 import com.example.springbootjpa.repository.BookRepository;
 import org.junit.jupiter.api.Test;
@@ -27,5 +28,18 @@ class BookServiceTest {
 
         System.out.println("Books : " + bookRepository.findAll());
         System.out.println("Authors : " + authorRepository.findAll());
+    }
+
+    @Test
+    void isolationTest() {
+        Book book = new Book();
+        book.setName("JPA 강의");
+
+        bookRepository.save(book);
+
+        bookService.get(1L);
+
+        System.out.println("(Test) >>> " + bookRepository.findAll());
+
     }
 }

@@ -15,14 +15,13 @@ import java.util.List;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
+//@DynamicUpdate
 public class Book extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long authorId;
-
-//    private Long publisherId;
 
     private String name;
 

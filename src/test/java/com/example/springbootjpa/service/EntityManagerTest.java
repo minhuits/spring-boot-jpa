@@ -41,18 +41,17 @@ public class EntityManagerTest {
     @Test
     void cacheFindTest2() {
         Optional<User> userOptional = userRepository.findById(1L);
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
+        if (!userOptional.isPresent()) throw new RuntimeException("오류가 발생했습니다.");
 
-            user.setName("test");
-            userRepository.save(user);
+        User user = userOptional.get();
+        user.setName("test");
+        userRepository.save(user);
 
-            System.out.println("===========================");
+        System.out.println("===========================");
 
-            user.setEmail("test@naver.com");
-            userRepository.save(user);
+        user.setEmail("test@naver.com");
+        userRepository.save(user);
 
-            System.out.println(userRepository.findAll()); // select * from user
-        }
+        System.out.println(userRepository.findAll()); // select * from user
     }
 }

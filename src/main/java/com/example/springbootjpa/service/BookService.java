@@ -6,7 +6,10 @@ import com.example.springbootjpa.repository.AuthorRepository;
 import com.example.springbootjpa.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,5 +34,21 @@ public class BookService {
         authorRepository.save(author);
 
         throw new RuntimeException("오류가 발생해 DB 커밋이 발생하지 않습니다.");
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public void get(Long id) {
+        System.out.println(">>> " + bookRepository.findById(id));
+        System.out.println(">>> " + bookRepository.findAll());
+
+        System.out.println(">>> " + bookRepository.findById(id));
+        System.out.println(">>> " + bookRepository.findAll());
+
+        Optional<Book> bookOptional = bookRepository.findById(id);
+        if (!bookOptional.isPresent()) throw new RuntimeException("오류가 발생했습니다.");
+
+        Book book = bookOptional.get();
+        book.setName("바뀔까???");
+        bookRepository.save(book);
     }
 }
