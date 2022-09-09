@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.Optional;
 
 @Service
@@ -16,6 +17,7 @@ import java.util.Optional;
 public class BookService {
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
+    private final EntityManager entityManager;
 
     public void put() {
         this.putBookAndAuthor();
@@ -50,5 +52,48 @@ public class BookService {
         Book book = bookOptional.get();
         book.setName("바뀔까???");
         bookRepository.save(book);
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public void get2(Long id) {
+        System.out.println(">>> " + bookRepository.findById(id));
+        System.out.println(">>> " + bookRepository.findAll());
+
+        entityManager.clear();
+
+        System.out.println(">>> " + bookRepository.findById(id));
+        System.out.println(">>> " + bookRepository.findAll());
+
+        entityManager.clear();
+    }
+
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    public void get3(Long id) {
+        System.out.println(">>> " + bookRepository.findById(id));
+        System.out.println(">>> " + bookRepository.findAll());
+
+        entityManager.clear();
+
+        System.out.println(">>> " + bookRepository.findById(id));
+        System.out.println(">>> " + bookRepository.findAll());
+
+        bookRepository.update();
+
+        entityManager.clear();
+    }
+
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    public void get4(Long id) {
+        System.out.println(">>> " + bookRepository.findById(id));
+        System.out.println(">>> " + bookRepository.findAll());
+
+        entityManager.clear();
+
+        System.out.println(">>> " + bookRepository.findById(id));
+        System.out.println(">>> " + bookRepository.findAll());
+
+        bookRepository.update();
+
+        entityManager.clear();
     }
 }

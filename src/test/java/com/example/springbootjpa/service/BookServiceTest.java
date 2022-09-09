@@ -42,4 +42,43 @@ class BookServiceTest {
         System.out.println("(Test) >>> " + bookRepository.findAll());
 
     }
+
+    @Test
+    void isolationTest2() {
+        Book book = new Book();
+        book.setName("JPA 강의");
+
+        bookRepository.save(book);
+
+        bookService.get2(1L);
+
+        System.out.println("(Test) >>> " + bookRepository.findAll());
+
+    }
+
+    @Test
+    void isolationTest3() {
+        Book book = new Book();
+        book.setName("JPA 강의");
+
+        bookRepository.save(book);
+
+        bookService.get3(1L);
+
+        System.out.println("(Test) >>> " + bookRepository.findAll());
+
+    }
+
+    @Test
+    void isolationTest4() {
+        Book book = new Book();
+        book.setName("JPA 강의");
+
+        bookRepository.save(book);
+
+        bookService.get4(1L);
+
+        System.out.println("(Test) >>> " + bookRepository.findAll());
+
+    }
 }
