@@ -14,8 +14,12 @@ public class BookService {
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
 
+    public void put() {
+        this.putBookAndAuthor();
+    }
+
     @Transactional
-    public void putBookAndAuthor() throws Exception{
+    void putBookAndAuthor() {
         Book book = new Book();
         book.setName("JPA 시작하기");
 

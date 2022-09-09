@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.Optional;
 
 @SpringBootTest
 @Transactional
@@ -39,16 +40,19 @@ public class EntityManagerTest {
 
     @Test
     void cacheFindTest2() {
-        User user = userRepository.findById(1L).get();
+        Optional<User> userOptional = userRepository.findById(1L);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
 
-        user.setName("test");
-        userRepository.save(user);
+            user.setName("test");
+            userRepository.save(user);
 
-        System.out.println("===========================");
+            System.out.println("===========================");
 
-        user.setEmail("test@naver.com");
-        userRepository.save(user);
+            user.setEmail("test@naver.com");
+            userRepository.save(user);
 
-        System.out.println(userRepository.findAll()); // select * from user
+            System.out.println(userRepository.findAll()); // select * from user
+        }
     }
 }
