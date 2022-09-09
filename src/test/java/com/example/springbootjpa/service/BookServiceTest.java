@@ -31,6 +31,78 @@ class BookServiceTest {
     }
 
     @Test
+    void TransactionTest2() {
+        try {
+            bookService.putBookAndAuthor2();
+        } catch (RuntimeException e) {
+            System.out.println(">>> " + e.getMessage());
+        }
+
+        System.out.println("Books : " + bookRepository.findAll());
+        System.out.println("Authors : " + authorRepository.findAll());
+    }
+
+    @Test
+    void TransactionTest3() {
+        try {
+            bookService.putBookAndAuthor3();
+        } catch (RuntimeException e) {
+            System.out.println(">>> " + e.getMessage());
+        }
+
+        System.out.println("Books : " + bookRepository.findAll());
+        System.out.println("Authors : " + authorRepository.findAll());
+    }
+
+    @Test
+    void TransactionTest4() {
+        try {
+            bookService.putBookAndAuthor4();
+        } catch (RuntimeException e) {
+            System.out.println(">>> " + e.getMessage());
+        }
+
+        System.out.println("Books : " + bookRepository.findAll());
+        System.out.println("Authors : " + authorRepository.findAll());
+    }
+
+    @Test
+    void TransactionTest5() {
+        try {
+            bookService.putBookAndAuthor5();
+        } catch (RuntimeException e) {
+            System.out.println(">>> " + e.getMessage());
+        }
+
+        System.out.println("Books : " + bookRepository.findAll());
+        System.out.println("Authors : " + authorRepository.findAll());
+    }
+
+    @Test
+    void TransactionTest6() {
+        try {
+            bookService.putBookAndAuthor6();
+        } catch (RuntimeException e) {
+            System.out.println(">>> " + e.getMessage());
+        }
+
+        System.out.println("Books : " + bookRepository.findAll());
+        System.out.println("Authors : " + authorRepository.findAll());
+    }
+
+    @Test
+    void TransactionTest7() {
+        try {
+            bookService.putBookAndAuthor7();
+        } catch (RuntimeException e) {
+            System.out.println(">>> " + e.getMessage());
+        }
+
+        System.out.println("Books : " + bookRepository.findAll());
+        System.out.println("Authors : " + authorRepository.findAll());
+    }
+
+    @Test
     void isolationTest() {
         Book book = new Book();
         book.setName("JPA 강의");

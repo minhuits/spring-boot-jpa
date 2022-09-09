@@ -7,6 +7,7 @@ import com.example.springbootjpa.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -18,12 +19,13 @@ public class BookService {
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
     private final EntityManager entityManager;
+    private final AuthorService authorService;
 
     public void put() {
         this.putBookAndAuthor();
     }
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED)
     void putBookAndAuthor() {
         Book book = new Book();
         book.setName("JPA 시작하기");
@@ -36,6 +38,81 @@ public class BookService {
         authorRepository.save(author);
 
         throw new RuntimeException("오류가 발생해 DB 커밋이 발생하지 않습니다.");
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    void putBookAndAuthor2() {
+        Book book = new Book();
+        book.setName("JPA 시작하기");
+
+        bookRepository.save(book);
+
+        authorService.putAuthor();
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    void putBookAndAuthor3() {
+        Book book = new Book();
+        book.setName("JPA 시작하기");
+
+        bookRepository.save(book);
+
+        authorService.putAuthor();
+
+       throw new RuntimeException("(REQUIRED) Book Service Error!!");
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    void putBookAndAuthor4() {
+        Book book = new Book();
+        book.setName("JPA 시작하기");
+
+        try {
+            authorService.putAuthorError();
+        } catch (RuntimeException ignored) {}
+
+        bookRepository.save(book);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    void putBookAndAuthor5() {
+        Book book = new Book();
+        book.setName("JPA 시작하기");
+
+        bookRepository.save(book);
+
+        try {
+            authorService.putAuthorError2();
+        } catch (RuntimeException ignored) {}
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    void putBookAndAuthor6() {
+
+        Book book = new Book();
+        book.setName("JPA 시작하기");
+
+        bookRepository.save(book);
+
+        try {
+            authorService.putAuthor2();
+        } catch (RuntimeException ignored) {}
+
+        throw new RuntimeException("(REQUIRED) Book Service Error!!");
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    void putBookAndAuthor7() {
+        Book book = new Book();
+        book.setName("JPA 시작하기");
+
+        bookRepository.save(book);
+
+        try {
+            authorService.putAuthor3();
+        } catch (RuntimeException ignored) {}
+
+        throw new RuntimeException("(REQUIRED) Book Service Error!!");
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
