@@ -4,12 +4,13 @@ import com.example.springbootjpa.domain.Book;
 import com.example.springbootjpa.domain.Publisher;
 import com.example.springbootjpa.domain.Review;
 import com.example.springbootjpa.domain.User;
+import com.example.springbootjpa.repository.dto.BookNameAndCategory;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.Tuple;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -220,14 +221,24 @@ class BookRepositoryTest {
         System.out.println(title + books);
 
         List<Book> books1 = bookRepository.findByNameRecently(name, dateTime, dateTime);
-        System.out.println("findByNameRecently : "  + books1);
+        System.out.println("findByNameRecently : " + books1);
 
-        List<Tuple> books2 = bookRepository.findBookNameAndCategory();
+        List<BookNameAndCategory> books2 = bookRepository.findBookNameAndCategory();
         System.out.println("BookNameAndCategory : " + books2);
 
-        bookRepository.findBookNameAndCategory().forEach(tuple -> {
-            System.out.println(tuple.get(0) + " : " + tuple.get(1));
+        bookRepository.findBookNameAndCategory().forEach(t -> {
+            System.out.println(t.getName() + " : " + t.getCategory());
         });
+
+        PageRequest pageRequest = PageRequest.of(1, 1);
+        bookRepository.findBookNameAndCategory(pageRequest).forEach(bookNameAndCategory ->
+                System.out.println(bookNameAndCategory.getName() + " : " + bookNameAndCategory.getCategory())
+        );
+
+        PageRequest pageRequest2 = PageRequest.of(0, 1);
+        bookRepository.findBookNameAndCategory(pageRequest2).forEach(bookNameAndCategory ->
+                System.out.println(bookNameAndCategory.getName() + " : " + bookNameAndCategory.getCategory())
+        );
     }
 
     private void getBookAndReview() {
