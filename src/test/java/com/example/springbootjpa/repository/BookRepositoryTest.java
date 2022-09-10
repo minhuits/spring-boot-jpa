@@ -84,7 +84,7 @@ class BookRepositoryTest {
         System.out.println("Publisher List : " + publisherRepository.findAll());
 
         Optional<Book> bookOptional = bookRepository.findById(1L);
-        if(!bookOptional.isPresent()) throw new RuntimeException("오류가 발생했습니다!!");
+        if (!bookOptional.isPresent()) throw new RuntimeException("오류가 발생했습니다!!");
 
         Book book1 = bookOptional.get();
         book1.getPublisher().setName("슬로우 캠퍼스");
@@ -94,6 +94,113 @@ class BookRepositoryTest {
         System.out.println("Publisher Lists : " + publisherRepository.findAll());
     }
 
+    @Test
+    void bookCascadeTest3() {
+        Book book = new Book();
+        book.setName("JPA 초격차 패키지");
+
+        Publisher publisher = new Publisher();
+        publisher.setName("패스트캠퍼스");
+
+        book.setPublisher(publisher);
+        bookRepository.save(book);
+
+        System.out.println("Book List : " + bookRepository.findAll());
+        System.out.println("Publisher List : " + publisherRepository.findAll());
+
+        Optional<Book> bookOptional = bookRepository.findById(1L);
+        if (!bookOptional.isPresent()) throw new RuntimeException("오류가 발생했습니다!!");
+
+        Book book1 = bookOptional.get();
+        book1.getPublisher().setName("슬로우 캠퍼스");
+
+        bookRepository.save(book1);
+
+        System.out.println("Publisher List : " + publisherRepository.findAll());
+
+        Optional<Book> bookOptional1 = bookRepository.findById(1L);
+        if (!bookOptional1.isPresent()) throw new RuntimeException("오류가 발생했습니다!!");
+
+        Book book2 = bookOptional1.get();
+        bookRepository.delete(book2);
+
+        System.out.println("(Delete) Book List : " + bookRepository.findAll());
+        System.out.println("(Delete) Publisher List : " + publisherRepository.findAll());
+    }
+
+    @Test
+    void bookCascadeTest4() {
+        Book book = new Book();
+        book.setName("JPA 초격차 패키지");
+
+        Publisher publisher = new Publisher();
+        publisher.setName("패스트캠퍼스");
+
+        book.setPublisher(publisher);
+        bookRepository.save(book);
+
+        System.out.println("Book List : " + bookRepository.findAll());
+        System.out.println("Publisher List : " + publisherRepository.findAll());
+
+        Optional<Book> bookOptional = bookRepository.findById(1L);
+        if (!bookOptional.isPresent()) throw new RuntimeException("오류가 발생했습니다!!");
+
+        Book book1 = bookOptional.get();
+        book1.getPublisher().setName("슬로우 캠퍼스");
+
+        bookRepository.save(book1);
+
+        System.out.println("Publisher List : " + publisherRepository.findAll());
+
+        Optional<Book> bookOptional2 = bookRepository.findById(1L);
+        if (!bookOptional2.isPresent()) throw new RuntimeException("오류가 발생했습니다!!");
+        Book book3 = bookOptional2.get();
+        book3.setPublisher(null);
+
+        bookRepository.save(book3);
+
+        System.out.println("(Delete) Book List : " + bookRepository.findAll());
+        System.out.println("(Delete) Publisher List : " + publisherRepository.findAll());
+
+        Optional<Book> bookOptional3 = bookRepository.findById(1L);
+        if (!bookOptional3.isPresent()) throw new RuntimeException("오류가 발생했습니다!!");
+        System.out.println("(Publisher) book3 Publisher : " +  bookOptional3.get().getPublisher());
+    }
+
+    @Test
+    void bookRemoveCascadeTest() {
+        bookRepository.deleteById(1L);
+
+        System.out.println("Book List : " + bookRepository.findAll());
+        System.out.println("Publisher List : " + publisherRepository.findAll());
+
+        bookRepository.findAll().forEach(book -> System.out.println(book.getPublisher()));
+    }
+
+    @Test
+    void softDelete() {
+        bookRepository.findAll().forEach(System.out::println);
+        System.out.println(bookRepository.findById(3L));
+        bookRepository.findAll().forEach(book -> System.out.println(book.getPublisher()));
+    }
+
+    @Test
+    void softDelete2() {
+        bookRepository.findAll().forEach(System.out::println);
+        System.out.println(bookRepository.findById(3L));
+
+        bookRepository.findByCategoryIsNull().forEach(System.out::println);
+        bookRepository.findAllByDeletedFalse().forEach(System.out::println);
+        bookRepository.findByCategoryIsNullAndDeletedFalse().forEach(System.out::println);
+    }
+
+    @Test
+    void softDelete3() {
+        bookRepository.findAll().forEach(System.out::println);
+        System.out.println(bookRepository.findById(3L));
+
+        bookRepository.findByCategoryIsNull().forEach(System.out::println);
+    }
 
     private void getBookAndReview() {
         Publisher publisher = getPublisher();
