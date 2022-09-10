@@ -19,4 +19,4 @@ insert into book(`id`, `name`, `publisher_id`, `deleted`) values ( 1, 'Spring JP
 
 insert into book(`id`, `name`, `publisher_id`, `deleted`) values ( 2, 'Spring Security 패키지', 1, false );
 
-insert into book(`id`, `name`, `publisher_id`, `deleted`) values ( 3, 'Spring 올인원 패키지', 1, true );
+insert into book(`id`, `name`, `publisher_id`, `deleted`) values ( 3, 'Spring Security 패키지', 1, true );

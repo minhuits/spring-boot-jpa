@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -164,7 +166,7 @@ class BookRepositoryTest {
 
         Optional<Book> bookOptional3 = bookRepository.findById(1L);
         if (!bookOptional3.isPresent()) throw new RuntimeException("오류가 발생했습니다!!");
-        System.out.println("(Publisher) book3 Publisher : " +  bookOptional3.get().getPublisher());
+        System.out.println("(Publisher) book3 Publisher : " + bookOptional3.get().getPublisher());
     }
 
     @Test
@@ -200,6 +202,23 @@ class BookRepositoryTest {
         System.out.println(bookRepository.findById(3L));
 
         bookRepository.findByCategoryIsNull().forEach(System.out::println);
+    }
+
+    @Test
+    void queryTest() {
+        bookRepository.findAll().forEach(System.out::println);
+
+        String name = "Spring JPA 패키지";
+        LocalDateTime dateTime = LocalDateTime.now().minusDays(1L);
+
+        List<Book> books = bookRepository
+                .findByCategoryIsNullAndNameEqualsAndCreatedAtGreaterThanEqualAndUpdatedAtGreaterThanEqual(
+                        name, dateTime, dateTime
+                );
+
+        String title = "findByCategoryIsNullAndNameEqualsAndCreatedAtGreaterThanEqualAndUpdatedAtGreaterThanEqual : ";
+
+        System.out.println(title + books);
     }
 
     private void getBookAndReview() {
