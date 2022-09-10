@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.Tuple;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -215,10 +216,18 @@ class BookRepositoryTest {
                 .findByCategoryIsNullAndNameEqualsAndCreatedAtGreaterThanEqualAndUpdatedAtGreaterThanEqual(
                         name, dateTime, dateTime
                 );
-
         String title = "findByCategoryIsNullAndNameEqualsAndCreatedAtGreaterThanEqualAndUpdatedAtGreaterThanEqual : ";
-
         System.out.println(title + books);
+
+        List<Book> books1 = bookRepository.findByNameRecently(name, dateTime, dateTime);
+        System.out.println("findByNameRecently : "  + books1);
+
+        List<Tuple> books2 = bookRepository.findBookNameAndCategory();
+        System.out.println("BookNameAndCategory : " + books2);
+
+        bookRepository.findBookNameAndCategory().forEach(tuple -> {
+            System.out.println(tuple.get(0) + " : " + tuple.get(1));
+        });
     }
 
     private void getBookAndReview() {
