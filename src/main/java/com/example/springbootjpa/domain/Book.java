@@ -15,7 +15,6 @@ import java.util.List;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-//@DynamicUpdate
 public class Book extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +35,8 @@ public class Book extends BaseEntity {
     @ToString.Exclude
     private List<Review> reviews = new ArrayList<>();
 
-    @ManyToOne
+//    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToOne(cascade = { CascadeType.ALL})
     @ToString.Exclude
     private Publisher publisher;
 
