@@ -226,9 +226,8 @@ class BookRepositoryTest {
         List<BookNameAndCategory> books2 = bookRepository.findBookNameAndCategory();
         System.out.println("BookNameAndCategory : " + books2);
 
-        bookRepository.findBookNameAndCategory().forEach(t -> {
-            System.out.println(t.getName() + " : " + t.getCategory());
-        });
+        bookRepository.findBookNameAndCategory().forEach(
+                book -> System.out.println(book.getName() + " : " + book.getCategory()));
 
         PageRequest pageRequest = PageRequest.of(1, 1);
         bookRepository.findBookNameAndCategory(pageRequest).forEach(bookNameAndCategory ->
@@ -239,6 +238,31 @@ class BookRepositoryTest {
         bookRepository.findBookNameAndCategory(pageRequest2).forEach(bookNameAndCategory ->
                 System.out.println(bookNameAndCategory.getName() + " : " + bookNameAndCategory.getCategory())
         );
+    }
+
+    @Test
+    void nativeQueryTest() {
+        bookRepository.findAll().forEach(System.out::println);
+        bookRepository.findAllCustom().forEach(System.out::println);
+    }
+
+    @Test
+    void nativeQueryTest2() {
+        List<Book> books = bookRepository.findAll();
+
+        for (Book book : books) {
+            book.setCategory("IT 전문서");
+        }
+
+        bookRepository.saveAll(books);
+
+        bookRepository.findAll().forEach(System.out::println);
+
+        System.out.println("affected row : " + bookRepository.updateCategories());
+
+        bookRepository.findAllCustom().forEach(System.out::println);
+
+        System.out.println("show tables : " + bookRepository.showTables());
     }
 
     private void getBookAndReview() {
