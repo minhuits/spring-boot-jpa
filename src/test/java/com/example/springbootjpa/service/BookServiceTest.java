@@ -153,4 +153,11 @@ class BookServiceTest {
         System.out.println("(Test) >>> " + bookRepository.findAll());
 
     }
+
+    @Test
+    void converterErrorTest() {
+        bookService.getAll();
+
+        bookRepository.findAll().forEach(System.out::println);
+    }
 }

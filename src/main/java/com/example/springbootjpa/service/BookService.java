@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -172,5 +173,14 @@ public class BookService {
         bookRepository.update();
 
         entityManager.clear();
+    }
+
+    @Transactional
+    public List<Book> getAll() {
+        List<Book> books = bookRepository.findAll();
+
+        books.forEach(System.out::println);
+
+        return books;
     }
 }
