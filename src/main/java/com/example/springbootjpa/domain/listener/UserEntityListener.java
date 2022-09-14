@@ -13,13 +13,16 @@ public class UserEntityListener {
     @PostPersist
     @PostUpdate
     public void prePersistAndPreUpdate(Object object) {
-        User user = (User) object;
         UserHistoryRepository userHistoryRepository = BeanUtils.getBean(UserHistoryRepository.class);
+
+        User user = (User) object;
 
         UserHistory userHistory = new UserHistory();
         userHistory.setName(user.getName());
         userHistory.setEmail(user.getEmail());
         userHistory.setUser(user);
+        userHistory.setHomeAddress(user.getHomeAddress());
+        userHistory.setCompanyAddress(user.getCompanyAddress());
 
         userHistoryRepository.save(userHistory);
     }
