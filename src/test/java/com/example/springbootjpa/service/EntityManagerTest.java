@@ -8,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.util.Optional;
 
 @SpringBootTest
 @Transactional
@@ -31,19 +30,17 @@ public class EntityManagerTest {
 //        System.out.println(userRepository.findByEmail("martin@fastcmpus.com"));
 //        System.out.println(userRepository.findByEmail("martin@fastcmpus.com"));
 //
-//        System.out.println(userRepository.findById(2L).get());
-//        System.out.println(userRepository.findById(2L).get());
-//        System.out.println(userRepository.findById(2L).get());
+//        System.out.println(userRepository.findById(2L).orElseThrow(RuntimeException::new));
+//        System.out.println(userRepository.findById(2L).orElseThrow(RuntimeException::new));
+//        System.out.println(userRepository.findById(2L).orElseThrow(RuntimeException::new));
 
         userRepository.deleteById(1L);
     }
 
     @Test
     void cacheFindTest2() {
-        Optional<User> userOptional = userRepository.findById(1L);
-        if (!userOptional.isPresent()) throw new RuntimeException("오류가 발생했습니다.");
+        User user = userRepository.findById(1L).orElseThrow(RuntimeException::new);
 
-        User user = userOptional.get();
         user.setName("test");
         userRepository.save(user);
 

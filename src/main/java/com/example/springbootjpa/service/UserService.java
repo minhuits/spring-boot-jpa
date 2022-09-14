@@ -2,19 +2,18 @@ package com.example.springbootjpa.service;
 
 import com.example.springbootjpa.domain.User;
 import com.example.springbootjpa.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
-    @Autowired
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public void putUserRepository() {
@@ -49,7 +48,7 @@ public class UserService {
         user.setName("newUser2");
         entityManager.merge(user);
 
-        User user1 = userRepository.findById(1L).get();
+        User user1 = userRepository.findById(1L).orElseThrow(RuntimeException::new);
         entityManager.remove(user1);
     }
 }

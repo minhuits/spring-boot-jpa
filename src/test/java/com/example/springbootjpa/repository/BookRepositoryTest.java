@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @SpringBootTest
 class BookRepositoryTest {
@@ -88,10 +87,7 @@ class BookRepositoryTest {
         System.out.println("Book List : " + bookRepository.findAll());
         System.out.println("Publisher List : " + publisherRepository.findAll());
 
-        Optional<Book> bookOptional = bookRepository.findById(1L);
-        if (!bookOptional.isPresent()) throw new RuntimeException("오류가 발생했습니다!!");
-
-        Book book1 = bookOptional.get();
+        Book book1 = bookRepository.findById(1L).orElseThrow(RuntimeException::new);
         book1.getPublisher().setName("슬로우 캠퍼스");
 
         bookRepository.save(book1);
@@ -113,20 +109,14 @@ class BookRepositoryTest {
         System.out.println("Book List : " + bookRepository.findAll());
         System.out.println("Publisher List : " + publisherRepository.findAll());
 
-        Optional<Book> bookOptional = bookRepository.findById(1L);
-        if (!bookOptional.isPresent()) throw new RuntimeException("오류가 발생했습니다!!");
-
-        Book book1 = bookOptional.get();
+        Book book1 = bookRepository.findById(1L).orElseThrow(RuntimeException::new);
         book1.getPublisher().setName("슬로우 캠퍼스");
 
         bookRepository.save(book1);
 
         System.out.println("Publisher List : " + publisherRepository.findAll());
 
-        Optional<Book> bookOptional1 = bookRepository.findById(1L);
-        if (!bookOptional1.isPresent()) throw new RuntimeException("오류가 발생했습니다!!");
-
-        Book book2 = bookOptional1.get();
+        Book book2 = bookRepository.findById(1L).orElseThrow(RuntimeException::new);
         bookRepository.delete(book2);
 
         System.out.println("(Delete) Book List : " + bookRepository.findAll());
@@ -147,29 +137,23 @@ class BookRepositoryTest {
         System.out.println("Book List : " + bookRepository.findAll());
         System.out.println("Publisher List : " + publisherRepository.findAll());
 
-        Optional<Book> bookOptional = bookRepository.findById(1L);
-        if (!bookOptional.isPresent()) throw new RuntimeException("오류가 발생했습니다!!");
-
-        Book book1 = bookOptional.get();
+        Book book1 = bookRepository.findById(1L).orElseThrow(RuntimeException::new);
         book1.getPublisher().setName("슬로우 캠퍼스");
 
         bookRepository.save(book1);
 
         System.out.println("Publisher List : " + publisherRepository.findAll());
 
-        Optional<Book> bookOptional2 = bookRepository.findById(1L);
-        if (!bookOptional2.isPresent()) throw new RuntimeException("오류가 발생했습니다!!");
-        Book book3 = bookOptional2.get();
-        book3.setPublisher(null);
+        Book book2 = bookRepository.findById(1L).orElseThrow(RuntimeException::new);
+        book2.setPublisher(null);
 
-        bookRepository.save(book3);
+        bookRepository.save(book2);
 
         System.out.println("(Delete) Book List : " + bookRepository.findAll());
         System.out.println("(Delete) Publisher List : " + publisherRepository.findAll());
 
-        Optional<Book> bookOptional3 = bookRepository.findById(1L);
-        if (!bookOptional3.isPresent()) throw new RuntimeException("오류가 발생했습니다!!");
-        System.out.println("(Publisher) book3 Publisher : " + bookOptional3.get().getPublisher());
+        Book book3 = bookRepository.findById(1L).orElseThrow(RuntimeException::new);
+        System.out.println("(Publisher) book3 Publisher : " + book3.getPublisher());
     }
 
     @Test
@@ -316,6 +300,5 @@ class BookRepositoryTest {
 
         reviewRepository.save(review);
     }
-
 
 }

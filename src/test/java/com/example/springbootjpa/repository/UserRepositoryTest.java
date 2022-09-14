@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -456,15 +455,12 @@ class UserRepositoryTest {
 
         userRepository.findAllRowRecord().forEach(a -> System.out.println(a.values()));
 
-        Optional<User> userOptional1 = userRepository.findById(7L);
-        if (!userOptional1.isPresent()) throw new RuntimeException("오류가 발생했습니다!!");
-
-        Optional<User> userOptional2 = userRepository.findById(8L);
-        if (!userOptional2.isPresent()) throw new RuntimeException("오류가 발생했습니다!!");
+        User user3 = userRepository.findById(7L).orElseThrow(RuntimeException::new);
+        User user4 = userRepository.findById(8L).orElseThrow(RuntimeException::new);
 
         assertAll(
-                () -> assertThat(userOptional1.get().getHomeAddress()).isNull(),
-                () -> assertThat(userOptional2.get().getHomeAddress()).isInstanceOf(Address.class)
+                () -> assertThat(user3.getHomeAddress()).isNull(),
+                () -> assertThat(user4.getHomeAddress()).isInstanceOf(Address.class)
         );
     }
 }

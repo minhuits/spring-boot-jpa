@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -124,10 +123,7 @@ public class BookService {
         System.out.println(">>> " + bookRepository.findById(id));
         System.out.println(">>> " + bookRepository.findAll());
 
-        Optional<Book> bookOptional = bookRepository.findById(id);
-        if (!bookOptional.isPresent()) throw new RuntimeException("오류가 발생했습니다.");
-
-        Book book = bookOptional.get();
+        Book book = bookRepository.findById(id).orElseThrow(RuntimeException::new);
         book.setName("바뀔까???");
         bookRepository.save(book);
     }

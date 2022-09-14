@@ -27,10 +27,9 @@ class CommentRepositoryTest {
 
         entityManager.clear();
 
-//        Optional<Comment> commentOptional = commentRepository.findById(3L);
-//        if (!commentOptional.isPresent()) throw new RuntimeException("오류가 발생했습니다!!");
+//        Comment comment1 = commentRepository.findById(3L).orElseThrow(RuntimeException::new);
 //
-//        System.out.println(commentOptional.get());
+//        System.out.println(comment1);
 
         System.out.println(comment);
 
