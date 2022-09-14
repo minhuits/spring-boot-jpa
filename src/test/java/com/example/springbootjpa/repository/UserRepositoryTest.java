@@ -13,7 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.contains;
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.endsWith;
 
@@ -420,15 +423,15 @@ class UserRepositoryTest {
     void embeddedTest() {
         userRepository.findAll().forEach(System.out::println);
 
+        Address homeAddress =
+                new Address("서울시", "강남구", "강남대로 364 미왕빌딩", "06241");
+        Address companyAddress =
+                new Address("서울시", "성동구", "성수이로 113 제강빌딩", "04794");
+
         User user = new User();
         user.setName("stave");
-        user.setHomeAddress(
-                new Address("서울시", "강남구", "강남대로 364 미왕빌딩", "06241")
-        );
-        user.setCompanyAddress(
-                new Address("서울시", "성동구", "성수이로 113 제강빌딩", "04794")
-        );
-
+        user.setHomeAddress(homeAddress);
+        user.setCompanyAddress(companyAddress);
 
         userRepository.save(user);
 
@@ -450,6 +453,18 @@ class UserRepositoryTest {
 
         userRepository.findAll().forEach(System.out::println);
         userHistoryRepository.findAll().forEach(System.out::println);
+
         userRepository.findAllRowRecord().forEach(a -> System.out.println(a.values()));
+
+        Optional<User> userOptional1 = userRepository.findById(7L);
+        if (!userOptional1.isPresent()) throw new RuntimeException("오류가 발생했습니다!!");
+
+        Optional<User> userOptional2 = userRepository.findById(8L);
+        if (!userOptional2.isPresent()) throw new RuntimeException("오류가 발생했습니다!!");
+
+        assertAll(
+                () -> assertThat(userOptional1.get().getHomeAddress()).isNull(),
+                () -> assertThat(userOptional2.get().getHomeAddress()).isInstanceOf(Address.class)
+        );
     }
 }
